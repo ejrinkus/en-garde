@@ -1,6 +1,12 @@
 <body>
+  {{#if id}}
   <div>
     <h1>{{name}}</h1>
     <p>id: {{id}}</p>
   </div>
+  {{else}}
+  <div>
+    <h1>Player Not Found</h1>
+  </div>
+  {{/if}}
 </body>

@@ -3,7 +3,7 @@ use rocket::*;
 
 use en_garde_libs::model::Context;
 use en_garde_libs::player::*;
-// use rocket::fs::{relative, FileServer};
+use rocket::fs::{relative, FileServer};
 use rocket_dyn_templates::Template;
 
 #[catch(404)]
@@ -24,7 +24,8 @@ fn index() -> Template {
 fn rocket() -> _ {
     rocket::build()
         .register("/", catchers![not_found])
-        .mount("/", routes![index, player, add_player, new_player])
+        .mount("/", routes![index, player, get_players, add_player])
         // .mount("/", FileServer::from(relative!("/static")))
+        .mount("/styles", FileServer::from(relative!("/templates/styles")))
         .attach(Template::fairing())
 }

@@ -1,0 +1,26 @@
+<head>
+  <link rel="stylesheet" href="/styles/styles.css">
+</head>
+<body>
+  <table>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+    </tr>
+    {{#each player_list}}
+    <tr>
+      <td>{{this.id}}</td>
+      <td>{{this.name}}</td>
+    </tr>
+    {{/each}}
+  </table>
+  <br />
+  <div>
+    <b>Add Player:</b><br />
+    <form id="addPlayerForm" action="/add_player" method="POST">
+    <label for="player_name">Name:</label>
+    <input id="player_name" name="player_name" type="text" required="required" maxlength="100"></input>
+    <input type="submit"></input>
+  </form>
+  </div>
+</body>
