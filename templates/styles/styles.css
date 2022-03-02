@@ -155,7 +155,7 @@ h1.centered {
 #hamburger-line1 {
     margin-bottom: 7px;
     transform-origin: 0% 0%;
-    transition: transform 0.5s ease-in-out, color 0.5s ease-in-out;
+    transition: transform 0.5s ease-in-out, background 0.5s ease-in-out;
 }
 #hamburger.transformed #hamburger-line1 {
     transform: rotate(45deg);
@@ -169,7 +169,7 @@ h1.centered {
 #hamburger-line2 {
     margin-top: 7px;
     margin-bottom: 7px;
-    transition: transform 0.25s ease-in-out, color 0.5s ease-in-out;
+    transition: transform 0.25s ease-in-out, background 0.5s ease-in-out;
 }
 #hamburger.transformed #hamburger-line2 {
     transform: scaleY(0);
@@ -183,7 +183,7 @@ h1.centered {
 #hamburger-line3 {
     margin-top: 7px;
     transform-origin: 0% 100%;
-    transition: transform 0.5s ease-in-out, color 0.5s ease-in-out;
+    transition: transform 0.5s ease-in-out, background 0.5s ease-in-out;
 }
 #hamburger.transformed #hamburger-line3 {
     transform: rotate(-45deg);
