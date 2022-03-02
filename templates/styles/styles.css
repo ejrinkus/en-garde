@@ -37,9 +37,13 @@ h1.centered {
     text-align: center;
 }
 
-/* The side navigation menu. Use IDs instead of classes since there should never
- * be multiple sidenavs in a document.
+/* TITLEBAR AND SIDEBAR STYLES.
+ *
+ * Generally use IDs instead of classes here since these styles shouldn't be
+ * reused by other elements.
  */
+
+/* The side navigation menu. */
 #sidenav {
     /* Fix sidnav to left side of window and stretch full height of window. */
     position: fixed;
@@ -60,8 +64,8 @@ h1.centered {
 /* The sidenav menu links. */
 #sidenav a {
     padding: 8px 8px 8px 32px;  /* Comfortable spacing between links. */
-    text-decoration: none;  /* No initial decorations. */
-    font-size: 25px;  /* Larger font size for emphasis and readability. */
+    text-decoration: none;  /* Remove anchor decorations. */
+    font-size: 1.6rem;  /* Larger font size for emphasis and readability. */
     color: #818181;
     display: block;  /* Ensure they're listed vertically. */
     /* Quick transition when changing their color due to the hover event. */
@@ -97,11 +101,11 @@ h1.centered {
  * links in sidenav.
  */
 @media screen and (max-height: 450px) {
-    .sidenav a {font-size: 18px;}
+    .sidenav a { font-size: 1.125rem; }
 }
 
 /* Top navbar containing hamburger menu and logo. */
-.navbar {
+#titlebar {
     /* Fix to top of window, and fill full width. */
     position: fixed;
     top: 0px;
@@ -117,13 +121,18 @@ h1.centered {
 }
 
 /* Site logo. */
-.logo {
+#logo {
     /* Fix in place to the top-right corner of the window. */
     position: fixed;
     top: 17px;
     right: 20px;
-    font-size: 1.2rem;
-    color: #0e2431;
+    font-size: 1.6rem;
+    color: #2c2c20;
+}
+
+#logo a {
+    color: #2c2c20;
+    text-decoration: none;  /* Remove anchor decorations. */
 }
 
 /* Hamburger menu to open/close the sidenav. */
