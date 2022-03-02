@@ -1,26 +1,34 @@
 <head>
   <link rel="stylesheet" href="/styles/styles.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script>window.jQuery || document.write('<script src="/js/jquery-3.6.0.js"><\/script>')</script>
+  <script src="/js/navbar.js"></script>
+  <script src="/js/form.js"></script>
 </head>
 <body>
-  <table>
-    <tr>
-      <th>ID</th>
-      <th>Name</th>
-    </tr>
-    {{#each player_list}}
-    <tr>
-      <td>{{this.id}}</td>
-      <td>{{this.name}}</td>
-    </tr>
-    {{/each}}
-  </table>
-  <br />
-  <div>
-    <b>Add Player:</b><br />
-    <form id="addPlayerForm" action="/add_player" method="POST">
-    <label for="player_name">Name:</label>
-    <input id="player_name" name="player_name" type="text" required="required" maxlength="100"></input>
-    <input type="submit"></input>
-  </form>
+  <nav id="titlebar" class="navbar"></nav>
+  <div id="main" onclick="closeNav()">
+    <h1 class="centered">Players</h1>
+    <table class="centered">
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+      </tr>
+      {{#each player_list}}
+      <tr>
+        <td>{{this.id}}</td>
+        <td>{{this.name}}</td>
+      </tr>
+      {{/each}}
+      <tr>
+        <td></td>
+        <td>
+          <form id="addPlayerForm">
+            <input id="playerName" name="player_name" type="text" required="required" maxlength="100"></input>
+            <input id="newPlayerSubmit" type="submit" value="Add"></input>
+          </form>
+        </td>
+      </tr>
+    </table>
   </div>
 </body>

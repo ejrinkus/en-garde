@@ -1,7 +1,191 @@
-table, th, td {
-    border: 1px solid;
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap');
+
+body {
+    font-family: "EB Garamond", serif;
+}
+
+ * {
+    /* Setting all margins/padding to 0 and box-sizing to border-box makes
+     * things generally easier to position, and in particular ensures that the
+     * sidebar and navbar properly reach the edges of the window.
+     */
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+table {
+    border-collapse: collapse;
+}
+tr {
+    border: solid lightgray;
+    border-width: 0 0 2px 0;
 }
 th, td {
+    text-align: left;
+    padding-top: 6px;
+    padding-bottom: 6px;
     padding-left: 3px;
-    padding-right: 3px;
+    padding-right: 12px;
+}
+
+table.centered {
+    margin: 0 auto;
+}
+
+h1.centered {
+    text-align: center;
+}
+
+/* The side navigation menu. Use IDs instead of classes since there should never
+ * be multiple sidenavs in a document.
+ */
+#sidenav {
+    /* Fix sidnav to left side of window and stretch full height of window. */
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0; /* default to zero-width (i.e. sidenav is closed). */
+    z-index: 2;  /* Put sidenav on top of everything but the hamburger menu. */
+    background-color: #2c2c20;
+    overflow-x: hidden; /* Disable horizontal scroll. */
+    padding-top: 60px;  /* Pad links below the close button (hamburger menu). */
+    transition: 0.5s; /* 0.5 second transition effect to slide in. */
+}
+#sidenav.open {
+    width: 250px; /* Open the sidenav when it receives the .open class. */
+}
+
+/* The sidenav menu links. */
+#sidenav a {
+    padding: 8px 8px 8px 32px;  /* Comfortable spacing between links. */
+    text-decoration: none;  /* No initial decorations. */
+    font-size: 25px;  /* Larger font size for emphasis and readability. */
+    color: #818181;
+    display: block;  /* Ensure they're listed vertically. */
+    /* Quick transition when changing their color due to the hover event. */
+    transition: 0.3s;
+}
+
+/* Brighten links when you hover over them. */
+#sidenav a:hover {
+    color: #f1f1f1;
+}
+
+/* Main page content container. */
+#main {
+    /* Ensure the content is part of regular document flow so that it can be
+     * pushed when the sidenav is opened.
+     */
+    position: relative;
+    margin-top: 60px;  /* Leave a margin the same size as the top navbar. */
+    /* We removed padding for all elements above; add it back to the main
+     * container.
+     */
+    padding: 20px;
+    z-index: 0;  /* Force a new stacking context to be created. */ 
+    /* Match transition duration to the sidenav's. */
+    transition: margin-left .5s;
+}
+#main.pushed {
+    /* Push out the container the same distance as the width of the sidenav. */
+    margin-left: 250px;
+}
+
+/* On smaller screens, where height is less than 450px, reduce font size of
+ * links in sidenav.
+ */
+@media screen and (max-height: 450px) {
+    .sidenav a {font-size: 18px;}
+}
+
+/* Top navbar containing hamburger menu and logo. */
+.navbar {
+    /* Fix to top of window, and fill full width. */
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 60px;  /* Hamburger menu height + top spacing. */
+    box-shadow: 0 1px 4px rgb(146 161 176 / 15%);
+    background-color: white;
+    /* Keep the navbar on top of the document, but below the sidenav. */
+    z-index: 1;
+    /* Push hamburger menu and logo to either side of the bar. */
+    justify-content: space-between;
+}
+
+/* Site logo. */
+.logo {
+    /* Fix in place to the top-right corner of the window. */
+    position: fixed;
+    top: 17px;
+    right: 20px;
+    font-size: 1.2rem;
+    color: #0e2431;
+}
+
+/* Hamburger menu to open/close the sidenav. */
+#hamburger {
+    /* Fix in place to the top-left corner of the window. */
+    position: fixed;
+    top: 17px;
+    left: 20px;
+    height: 26px;
+    width: 32px;
+    z-index: 3;  /* Hamburger menu is on top of everything. */
+    display: block;
+    cursor: pointer;
+}
+
+/* Shared line class for hamburger menu lines. */
+#hamburger .line {
+    display: block;
+    height: 4px;
+    width: 100%;
+    border-radius: 10px;
+    background: #2c2c20;
+}
+
+/* Top line of hamburger menu. Give it a bottom margin of 7px to properly space
+ * it from the middle line. When transforming into a close button, rotate down
+ * 45-degrees from the top-left point of the line.
+ */
+#hamburger-line1 {
+    margin-bottom: 7px;
+    transform-origin: 0% 0%;
+    transition: transform 0.5s ease-in-out, color 0.5s ease-in-out;
+}
+#hamburger.transformed #hamburger-line1 {
+    transform: rotate(45deg);
+    background: #818181;
+}
+
+/* Middle line of hamburger menu. Give it top and bottom margins of 7px to
+ * properly space it from the other two lines. When transforming into a close
+ * button, make the line disappear.
+ */
+#hamburger-line2 {
+    margin-top: 7px;
+    margin-bottom: 7px;
+    transition: transform 0.25s ease-in-out, color 0.5s ease-in-out;
+}
+#hamburger.transformed #hamburger-line2 {
+    transform: scaleY(0);
+    background: #818181;
+}
+
+/* Bottom line of hamburger menu. Give it a top margin of 7px to properly space
+ * it from the middle line. When transforming into a close button, rotate up
+ * 45-degrees from the bottom-left point of the line.
+ */
+#hamburger-line3 {
+    margin-top: 7px;
+    transform-origin: 0% 100%;
+    transition: transform 0.5s ease-in-out, color 0.5s ease-in-out;
+}
+#hamburger.transformed #hamburger-line3 {
+    transform: rotate(-45deg);
+    background: #818181;
 }

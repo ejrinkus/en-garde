@@ -25,7 +25,8 @@ fn rocket() -> _ {
     rocket::build()
         .register("/", catchers![not_found])
         .mount("/", routes![index, player, get_players, add_player])
-        // .mount("/", FileServer::from(relative!("/static")))
+        .mount("/js", FileServer::from(relative!("/templates/js")))
         .mount("/styles", FileServer::from(relative!("/templates/styles")))
+        .mount("/templates", FileServer::from(relative!("/templates")))
         .attach(Template::fairing())
 }
