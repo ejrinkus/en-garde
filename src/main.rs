@@ -17,7 +17,7 @@ fn index() -> Template {
         first_name: String::from("Eric"),
         last_name: String::from("Rinkus"),
     };
-    Template::render("home", context)
+    Template::render("index", context)
 }
 
 #[launch]
