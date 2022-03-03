@@ -7,12 +7,6 @@ pub struct Player {
     pub name: String,
 }
 
-#[derive(Serialize)]
-pub struct Context {
-    pub first_name: String,
-    pub last_name: String,
-}
-
 // enum Month {
 //     January,
 //     February,
