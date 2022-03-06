@@ -98,15 +98,15 @@
             <td><span title="Roll 1d6 and consult Birth Table C (based on the birth class result as well)." class="tooltipIcon">?</span></td>
             <td><select id="characterFather" name="father" required="required">
               <option value=""></option>
-              <option value="commoner">(Commoner) Peasant</option>
-              <option value="commoner">(Commoner) Small merchant</option>
-              <option value="gentleman">(Commoner) Merchant</option>
-              <option value="gentleman">(Commoner) Wealthy merchant</option>
-              <option value="nobleman">(Commoner) Very wealthy merchant</option>
-              <option value="nobleman">Impoverished</option>
-              <option value="commoner">Well-to-do</option>
-              <option value="commoner">Wealthy</option>
-              <option value="gentleman">Very wealthy</option>
+              <option value="peasant">(Commoner) Peasant</option>
+              <option value="sm_merchant">(Commoner) Small merchant</option>
+              <option value="merchant">(Commoner) Merchant</option>
+              <option value="wealthy_merchant">(Commoner) Wealthy merchant</option>
+              <option value="v_wealthy_merchant">(Commoner) Very wealthy merchant</option>
+              <option value="impoverished">Impoverished</option>
+              <option value="welltodo">Well-to-do</option>
+              <option value="wealthy">Wealthy</option>
+              <option value="v_wealthy">Very wealthy</option>
             </select></td>
           </tr>
 
@@ -115,30 +115,30 @@
             <td><span title="If father is a nobleman, roll 1d6 and consult Birth Table D.  Otherwise, leave blank." class="tooltipIcon">?</span></td>
             <td><select id="characterFatherTitle" name="father_title">
               <option value=""></option>
-              <option value="nobleman">Knight</option>
-              <option value="commoner">Baron</option>
-              <option value="commoner">Marquis</option>
-              <option value="gentleman">Earl</option>
-              <option value="gentleman">Viscount</option>
-              <option value="gentleman">Count</option>
+              <option value="knight">Knight</option>
+              <option value="baron">Baron</option>
+              <option value="marquis">Marquis</option>
+              <option value="early">Earl</option>
+              <option value="viscount">Viscount</option>
+              <option value="count">Count</option>
             </select></td>
           </tr>
 
           <tr>
-            <td><label for="initialFunds">Initial Funds:</label></td>
+            <td><label for="initial_funds">Initial Funds:</label></td>
             <td><span title="Determined by father's position in Birth Table C.  Increase by 10% if first son.  Decrease by 10% if bastard." class="tooltipIcon">?</span></td>
-            <td><input id="characterInitialFunds" name="initialFunds" type="number" min="0" max="1000" required="required" /></td>
+            <td><input id="characterInitialFunds" name="initial_funds" type="number" min="0" max="1000" required="required" /></td>
           </tr>
 
           <tr>
             <td><label for="allowance">Allowance:</label></td>
-            <td><span title="(Only if character is NOT an orphan) Determined by father's position in Birth Table C.  Increase by 10% if first son.  Decrease by 10% if bastard." class="tooltipIcon">?</span></td>
+            <td><span title="(Only received if character is NOT an orphan) Determined by father's position in Birth Table C.  Increase by 10% if first son.  Decrease by 10% if bastard." class="tooltipIcon">?</span></td>
             <td><input id="characterAllowance" name="allowance" type="number" min="0" max="150" required="required" /></td>
           </tr>
 
           <tr>
             <td><label for="inheritance">Inheritance:</label></td>
-            <td><span title="(Only if character is an orphan) Determined by father's position in Birth Table C." class="tooltipIcon">?</span></td>
+            <td><span title="(Only received if character is an orphan) Determined by father's position in Birth Table C." class="tooltipIcon">?</span></td>
             <td><input id="characterInheritance" name="inheritance" type="number" min="0" max="5000" required="required" /></td>
           </tr>
 
