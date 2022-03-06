@@ -1,10 +1,36 @@
+use crate::schema::*;
 use rocket::serde::Serialize;
 use rocket::*;
 
-#[derive(Clone, Debug, FromForm, Queryable, Serialize)]
+#[derive(Clone, Debug, FromForm, Identifiable, Queryable, Serialize)]
 pub struct Player {
     pub id: i32,
     pub name: String,
+}
+
+#[derive(Clone, Debug, FromForm, Identifiable, Queryable, Serialize)]
+pub struct Character {
+    pub id: i32,
+    pub player_id: i32,
+    pub name: String,
+    pub abbr: String,
+    pub birth: String,
+    pub sib_rank: String,
+    pub father: String,
+    pub inheritance: i32,
+    pub sl: i32,
+    pub crowns: i32,
+    pub allowance: i32,
+    pub strength: i32,
+    pub expertise: i32,
+    pub constitution: i32,
+    pub endurance: i32,
+    pub military_ability: i32,
+    pub club_id: Option<i32>,
+    pub mistress_id: Option<i32>,
+    pub rank_id: Option<i32>,
+    pub brevet_rank_id: Option<i32>,
+    pub turn_enlisted: Option<i32>,
 }
 
 // enum Month {
@@ -72,23 +98,6 @@ pub struct Player {
 //     weapon: String,
 //     progress: i32,
 //     expertise: i32,
-// }
-
-// struct Character {
-//     id: i32,
-//     player_id: i32,
-//     name: String,
-//     abbr: String,
-//     sl: i32,
-//     strength: i32,
-//     expertise: i32,
-//     constitution: i32,
-//     endurance: i32,
-//     military_ability: i32,
-//     club_id: i32,
-//     mistress_id: i32,
-//     rank_id: i32,
-//     turn_enlisted: i32,
 // }
 
 // struct Club {

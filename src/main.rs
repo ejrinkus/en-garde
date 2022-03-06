@@ -1,8 +1,7 @@
 #![feature(decl_macro)]
 use rocket::*;
 
-use en_garde_libs::model::*;
-use en_garde_libs::player::*;
+use en_garde_libs::db::*;
 use rocket::form::Form;
 use rocket::fs::{relative, FileServer};
 use rocket::serde::Serialize;
@@ -24,18 +23,34 @@ fn index() -> Template {
 
 #[get("/players")]
 fn players() -> Template {
-    let results = get_players();
+    let results = get_players_with_characters();
 
-    // Wrap the players list in a serializable context to pass to the template.
+    // Wrap the query results in a serializable context to pass to the template.
+    #[derive(Serialize)]
+    struct PlayerContext {
+        player_id: i32,
+        player_name: String,
+        character_id: Option<i32>,
+        character_name: Option<String>,
+    }
     #[derive(Serialize)]
     struct PlayersContext<'a> {
-        player_list: &'a Vec<Player>,
+        list: &'a Vec<PlayerContext>,
     }
-    let list = PlayersContext {
-        player_list: &results,
+    let context_list = results
+        .into_iter()
+        .map(|(pid, pname, cid, cname)| PlayerContext {
+            player_id: pid,
+            player_name: pname,
+            character_id: cid,
+            character_name: cname,
+        })
+        .collect();
+    let context = PlayersContext {
+        list: &context_list,
     };
 
-    Template::render("players", list)
+    Template::render("players", context)
 }
 
 #[derive(FromForm)]

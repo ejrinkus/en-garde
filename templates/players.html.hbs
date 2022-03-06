@@ -1,34 +1,188 @@
 <head>
   <link rel="stylesheet" href="/styles/styles.css">
+  <link rel="stylesheet" href="/styles/jquery-ui.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  <script>window.jQuery || document.write('<script src="/js/jquery-3.6.0.js"><\/script>')</script>
+  <script>window.jQuery || document.write('<script src="/js/jquery-3.6.0.min.js"><\/script>')</script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+  <script>jQuery.ui || document.write('<script src="/js/jquery-ui-1.12.1.min.js"><\/script>')</script>
   <script src="/js/navbar.js"></script>
   <script src="/js/form.js"></script>
 </head>
 <body>
+  {{!-- There's code in form.js to fill in this nav with the navbar template. --}}
   <nav id="titlebar"></nav>
+  {{!-- Main document body. onclick event to close the nav (if open) when this area is clicked. --}}
   <div id="main" onclick="closeNav()">
     <h1 class="centered">Players</h1>
     <table class="centered">
       <tr>
         <th>ID</th>
         <th>Name</th>
+        <th>Character</th>
       </tr>
-      {{#each player_list}}
+      {{#each list}}
       <tr>
-        <td>{{this.id}}</td>
-        <td>{{this.name}}</td>
+        {{!-- For each player, list their ID and name. --}}
+        <td>{{this.player_id}}</td>
+        <td>{{this.player_name}}</td>
+        {{#if this.character_id}}
+        {{!-- If the player has a character, show that character's name. --}}
+        <td>{{this.character_name}}</td>
+        {{else}}
+        {{!-- If the player doesn't have a character, provide a button to create one. --}}
+        <td>
+          <span>Add Character: </span>
+          <button id="addCharManButton" type="button" onclick="manualAddCharacter({{this.player_id}})">Add Character</button>
+          {{!-- TODO: <button id="addCharAutoButton" type="button" onclick="autoAddCharacter({{this.player_id}})">Auto</button> --}}
+        </td>
+        {{/if}}
       </tr>
       {{/each}}
+      {{!-- Add one final row to contain a form for adding more players. --}}
       <tr>
         <td></td>
         <td>
           <form id="addPlayerForm">
-            <input id="playerName" name="name" type="text" required="required" maxlength="100"></input>
-            <input id="newPlayerSubmit" type="submit" value="Add"></input>
+            <input id="playerName" class="inlineFormElement" name="name" type="text" required="required" maxlength="100" />
+            <input id="newPlayerSubmit" class="inlineFormElement" type="submit" value="Add Player" />
           </form>
         </td>
       </tr>
     </table>
+
+    <div id="addCharacterBody" class="hidden">
+      <button id="closeAddCharacter" type="button" onclick="closeAddCharacter()">
+        Close
+      </button>
+      <h2 class="centered">Add Character</h2>
+      <form id="addCharacterForm">
+        <input id="characterPlayerId" name="player_id" type="hidden" />
+        <table class="centered">
+          <tr>
+            <td><label for="name">Name:</label></td>
+            <td></td>
+            <td><input id="characterName" name="name" type="text" required="required" maxLength="100" /></td>
+          </tr>
+
+          <tr>
+            <td><label for="abbr">Abbreviation:</label></td>
+            <td></td>
+            <td><input id="characterAbbr" name="abbr" type="text" required="required" maxLength="10" /></td>
+          </tr>
+
+          <tr>
+            <td><label for="birth">Birth Class:</label></td>
+            <td><span title="Roll 1d6 and consult Birth Table A." class="tooltipIcon">?</span></td>
+            <td><select id="characterBirth" name="birth" required="required">
+              <option value=""></option>
+              <option value="commoner">Commoner</option>
+              <option value="gentleman">Gentleman</option>
+              <option value="nobleman">Nobleman</option>
+            </select></td>
+          </tr>
+
+          <tr>
+            <td><label for="sib_rank">Sibling Rank:</label></td>
+            <td><span title="Roll 1d6 and consult Birth Table B.  If First Son is rolled, roll another d6.  On a 1, you are also an orphan." class="tooltipIcon">?</span></td>
+            <td><select id="characterSibRank" name="sib_rank" required="required">
+              <option value=""></option>
+              <option value="first">First Son</option>
+              <option value="orphan">First Son (orphan)</option>
+              <option value="second">Second Son</option>
+              <option value="bastard">Bastard</option>
+            </select></td>
+          </tr>
+
+          <tr>
+            <td><label for="father">Father's Position:</label></td>
+            <td><span title="Roll 1d6 and consult Birth Table C (based on the birth class result as well)." class="tooltipIcon">?</span></td>
+            <td><select id="characterFather" name="father" required="required">
+              <option value=""></option>
+              <option value="commoner">(Commoner) Peasant</option>
+              <option value="commoner">(Commoner) Small merchant</option>
+              <option value="gentleman">(Commoner) Merchant</option>
+              <option value="gentleman">(Commoner) Wealthy merchant</option>
+              <option value="nobleman">(Commoner) Very wealthy merchant</option>
+              <option value="nobleman">Impoverished</option>
+              <option value="commoner">Well-to-do</option>
+              <option value="commoner">Wealthy</option>
+              <option value="gentleman">Very wealthy</option>
+            </select></td>
+          </tr>
+
+          <tr>
+            <td><label for="father_title">Father's Title:</label></td>
+            <td><span title="If father is a nobleman, roll 1d6 and consult Birth Table D.  Otherwise, leave blank." class="tooltipIcon">?</span></td>
+            <td><select id="characterFatherTitle" name="father_title">
+              <option value=""></option>
+              <option value="nobleman">Knight</option>
+              <option value="commoner">Baron</option>
+              <option value="commoner">Marquis</option>
+              <option value="gentleman">Earl</option>
+              <option value="gentleman">Viscount</option>
+              <option value="gentleman">Count</option>
+            </select></td>
+          </tr>
+
+          <tr>
+            <td><label for="initialFunds">Initial Funds:</label></td>
+            <td><span title="Determined by father's position in Birth Table C.  Increase by 10% if first son.  Decrease by 10% if bastard." class="tooltipIcon">?</span></td>
+            <td><input id="characterInitialFunds" name="initialFunds" type="number" min="0" max="1000" required="required" /></td>
+          </tr>
+
+          <tr>
+            <td><label for="allowance">Allowance:</label></td>
+            <td><span title="(Only if character is NOT an orphan) Determined by father's position in Birth Table C.  Increase by 10% if first son.  Decrease by 10% if bastard." class="tooltipIcon">?</span></td>
+            <td><input id="characterAllowance" name="allowance" type="number" min="0" max="150" required="required" /></td>
+          </tr>
+
+          <tr>
+            <td><label for="inheritance">Inheritance:</label></td>
+            <td><span title="(Only if character is an orphan) Determined by father's position in Birth Table C." class="tooltipIcon">?</span></td>
+            <td><input id="characterInheritance" name="inheritance" type="number" min="0" max="5000" required="required" /></td>
+          </tr>
+
+          <tr>
+            <td><label for="sl">Status Level:</label></td>
+            <td><span title="Use father's position (or title, if applicable) and consult Birth Table D.  Increase by 1 if first son.  Decrease by 1 if bastard." class="tooltipIcon">?</span></td>
+            <td><input id="characterSl" name="sl" type="number" min="1" max="12" required="required" /></td>
+          </tr>
+
+          <tr>
+            <td><label for="strength">Strength:</label></td>
+            <td><span title="Roll 3d6." class="tooltipIcon">?</span></td>
+            <td><input id="characterStrength" name="strength" type="number" min="3" max="18" required="required" /></td>
+          </tr>
+
+          <tr>
+            <td><label for="expertise">Expertise:</label></td>
+            <td><span title="Roll 3d6." class="tooltipIcon">?</span></td>
+            <td><input id="characterExpertise" name="expertise" type="number" min="3" max="18" required="required" /></td>
+          </tr>
+
+          <tr>
+            <td><label for="constitution">Constitution:</label></td>
+            <td><span title="Roll 3d6." class="tooltipIcon">?</span></td>
+            <td><input id="characterConstitution" name="constitution" type="number" min="3" max="18" required="required" /></td>
+          </tr>
+
+          <tr>
+            <td><label for="endurance">Endurance:</label></td>
+            <td><span title="Multiply Strength and Constitution." class="tooltipIcon">?</span></td>
+            <td><input id="characterEndurance" name="endurance" type="number" min="9" max="324" required="required" /></td>
+          </tr>
+
+          <tr>
+            <td><label for="military_ability">Military Ability:</label></td>
+            <td><span title="Roll 1d6." class="tooltipIcon">?</span></td>
+            <td><input id="characterMa" name="military_ability" type="number" min="1" max="6" required="required" /></td>
+          </tr>
+
+          <tr>
+            <td colspan="3"><input id="newCharacterSubmit" type="submit" value="Create Character" /></td>
+          </tr>
+        </table>
+      </form>
+    </div>
   </div>
 </body>

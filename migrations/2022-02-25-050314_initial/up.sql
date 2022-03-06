@@ -13,13 +13,14 @@ CREATE TABLE characters (
     abbr TEXT NOT NULL,
     /* family info. */
     birth TEXT NOT NULL,
+    sib_rank TEXT NOT NULL,
     father TEXT NOT NULL,
-    inheritance TEXT NOT NULL,
+    father_title TEXT NOT NULL,
+    allowance INTEGER NOT NULL,
     /* status level. */
     sl INTEGER NOT NULL,
     /* current money. */
     crowns INTEGER NOT NULL,
-    allowance INTEGER NOT NULL,
     /* character stats. */
     strength INTEGER NOT NULL,
     expertise INTEGER NOT NULL,
