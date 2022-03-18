@@ -13,6 +13,13 @@ table! {
 }
 
 table! {
+    birth_classes (id) {
+        id -> Integer,
+        class_name -> Text,
+    }
+}
+
+table! {
     brigades (id) {
         id -> Integer,
         name -> Text,
@@ -24,15 +31,16 @@ table! {
 table! {
     characters (id) {
         id -> Integer,
-        player_id -> Integer,
+        user_id -> Integer,
         name -> Text,
         abbr -> Text,
-        birth -> Text,
-        sib_rank -> Text,
-        father -> Text,
-        allowance -> Integer,
+        birth_id -> Integer,
+        sib_id -> Integer,
+        father_id -> Integer,
+        father_title_id -> Nullable<Integer>,
         sl -> Integer,
         crowns -> Integer,
+        allowance -> Integer,
         strength -> Integer,
         expertise -> Integer,
         constitution -> Integer,
@@ -42,6 +50,7 @@ table! {
         mistress_id -> Nullable<Integer>,
         rank_id -> Nullable<Integer>,
         brevet_rank_id -> Nullable<Integer>,
+        title_id -> Nullable<Integer>,
         turn_enlisted -> Nullable<Integer>,
     }
 }
@@ -72,6 +81,17 @@ table! {
 }
 
 table! {
+    father_positions (id) {
+        id -> Integer,
+        position_name -> Text,
+        initial_funds -> Integer,
+        allowance -> Integer,
+        inheritance -> Integer,
+        starting_sl -> Integer,
+    }
+}
+
+table! {
     mentions (id) {
         id -> Integer,
         character_id -> Integer,
@@ -89,13 +109,6 @@ table! {
         beautiful -> Integer,
         influential -> Integer,
         wealthy -> Integer,
-    }
-}
-
-table! {
-    players (id) {
-        id -> Integer,
-        name -> Text,
     }
 }
 
@@ -154,6 +167,25 @@ table! {
 }
 
 table! {
+    sibling_ranks (id) {
+        id -> Integer,
+        rank_name -> Text,
+        sl_mod -> Integer,
+        funds_multiplier -> Float,
+        allowance_multiplier -> Float,
+        inheritance_multiplier -> Float,
+    }
+}
+
+table! {
+    titles (id) {
+        id -> Integer,
+        title_name -> Text,
+        starting_sl -> Integer,
+    }
+}
+
+table! {
     trainings (id) {
         id -> Integer,
         character_id -> Integer,
@@ -171,12 +203,24 @@ table! {
     }
 }
 
+table! {
+    users (id) {
+        id -> Integer,
+        username -> Text,
+        permissions_mask -> Nullable<Integer>,
+        pwd -> Text,
+    }
+}
+
 joinable!(actions -> characters (character_id));
 joinable!(actions -> turns (turn_id));
+joinable!(characters -> birth_classes (birth_id));
 joinable!(characters -> clubs (club_id));
+joinable!(characters -> father_positions (father_id));
 joinable!(characters -> mistresses (mistress_id));
-joinable!(characters -> players (player_id));
+joinable!(characters -> sibling_ranks (sib_id));
 joinable!(characters -> turns (turn_enlisted));
+joinable!(characters -> users (user_id));
 joinable!(mentions -> characters (character_id));
 joinable!(mentions -> turns (turn_mentioned));
 joinable!(ranks -> regiments (regiment_id));
@@ -189,17 +233,21 @@ joinable!(trainings -> characters (character_id));
 
 allow_tables_to_appear_in_same_query!(
     actions,
+    birth_classes,
     brigades,
     characters,
     clubs,
     events,
+    father_positions,
     mentions,
     mistresses,
-    players,
     ranks,
     regiments,
     reports,
     results,
+    sibling_ranks,
+    titles,
     trainings,
     turns,
+    users,
 );

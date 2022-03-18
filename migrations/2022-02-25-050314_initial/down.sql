@@ -1,6 +1,10 @@
 -- This file should undo anything in `up.sql`
 -- Your SQL goes here
-DROP TABLE players;
+DROP TABLE users;
+DROP TABLE birth_classes;
+DROP TABLE sibling_ranks;
+DROP TABLE father_positions;
+DROP TABLE titles;
 DROP TABLE characters;
 DROP TABLE turns;
 DROP TABLE actions;

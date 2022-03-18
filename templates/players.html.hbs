@@ -23,7 +23,7 @@
       {{#each list}}
       <tr>
         {{!-- For each player, list their ID and name. --}}
-        <td>{{this.player_id}}</td>
+        <td>{{this.user_id}}</td>
         <td>{{this.player_name}}</td>
         {{#if this.character_id}}
         {{!-- If the player has a character, show that character's name. --}}
@@ -32,7 +32,7 @@
         {{!-- If the player doesn't have a character, provide a button to create one. --}}
         <td>
           <span>Add Character: </span>
-          <button id="addCharManButton" type="button" onclick="manualAddCharacter({{this.player_id}})">Add Character</button>
+          <button id="addCharManButton" type="button" onclick="manualAddCharacter({{this.user_id}})">Add Character</button>
           {{!-- TODO: <button id="addCharAutoButton" type="button" onclick="autoAddCharacter({{this.player_id}})">Auto</button> --}}
         </td>
         {{/if}}
@@ -71,81 +71,33 @@
           </tr>
 
           <tr>
-            <td><label for="birth">Birth Class:</label></td>
-            <td><span title="Roll 1d6 and consult Birth Table A." class="tooltipIcon">?</span></td>
-            <td><select id="characterBirth" name="birth" required="required">
-              <option value=""></option>
-              <option value="commoner">Commoner</option>
-              <option value="gentleman">Gentleman</option>
-              <option value="nobleman">Nobleman</option>
-            </select></td>
+            <td><label for="birth_roll">Birth Class:</label></td>
+            <td><span title="Roll 1d6 and enter it here." class="tooltipIcon">?</span></td>
+            <td><input id="characterBirth" name="birth_roll" type="number" min="1" max="6" required="required" />
           </tr>
 
           <tr>
-            <td><label for="sib_rank">Sibling Rank:</label></td>
-            <td><span title="Roll 1d6 and consult Birth Table B.  If First Son is rolled, roll another d6.  On a 1, you are also an orphan." class="tooltipIcon">?</span></td>
-            <td><select id="characterSibRank" name="sib_rank" required="required">
-              <option value=""></option>
-              <option value="first">First Son</option>
-              <option value="orphan">First Son (orphan)</option>
-              <option value="second">Second Son</option>
-              <option value="bastard">Bastard</option>
-            </select></td>
+            <td><label for="sib_roll">Sibling Rank:</label></td>
+            <td><span title="Roll 1d6 and enter it here." class="tooltipIcon">?</span></td>
+            <td><input id="characterSib" name="sib_roll" type="number" min="1" max="6" required="required" />
           </tr>
 
           <tr>
-            <td><label for="father">Father's Position:</label></td>
-            <td><span title="Roll 1d6 and consult Birth Table C (based on the birth class result as well)." class="tooltipIcon">?</span></td>
-            <td><select id="characterFather" name="father" required="required">
-              <option value=""></option>
-              <option value="peasant">(Commoner) Peasant</option>
-              <option value="sm_merchant">(Commoner) Small merchant</option>
-              <option value="merchant">(Commoner) Merchant</option>
-              <option value="wealthy_merchant">(Commoner) Wealthy merchant</option>
-              <option value="v_wealthy_merchant">(Commoner) Very wealthy merchant</option>
-              <option value="impoverished">Impoverished</option>
-              <option value="welltodo">Well-to-do</option>
-              <option value="wealthy">Wealthy</option>
-              <option value="v_wealthy">Very wealthy</option>
-            </select></td>
+            <td><label for="orphan_roll">Orphan Roll:</label></td>
+            <td><span title="If you got a 1 on the Sibling Rank, roll 1d6 and enter it here." class="tooltipIcon">?</span></td>
+            <td><input id="characterOrphan" name="orphan_roll" type="number" min="1" max="6" />
           </tr>
 
           <tr>
-            <td><label for="father_title">Father's Title:</label></td>
-            <td><span title="If father is a nobleman, roll 1d6 and consult Birth Table D.  Otherwise, leave blank." class="tooltipIcon">?</span></td>
-            <td><select id="characterFatherTitle" name="father_title">
-              <option value=""></option>
-              <option value="knight">Knight</option>
-              <option value="baron">Baron</option>
-              <option value="marquis">Marquis</option>
-              <option value="early">Earl</option>
-              <option value="viscount">Viscount</option>
-              <option value="count">Count</option>
-            </select></td>
+            <td><label for="father_roll">Father's Position:</label></td>
+            <td><span title="Roll 1d6 and enter it here." class="tooltipIcon">?</span></td>
+            <td><input id="characterFather" name="father_roll" type="number" min="1" max="6" required="required" />
           </tr>
 
           <tr>
-            <td><label for="initial_funds">Initial Funds:</label></td>
-            <td><span title="Determined by father's position in Birth Table C.  Increase by 10% if first son.  Decrease by 10% if bastard." class="tooltipIcon">?</span></td>
-            <td><input id="characterInitialFunds" name="initial_funds" type="number" min="0" max="1000" required="required" /></td>
-          </tr>
-
-          <tr>
-            <td><label for="allowance">Allowance:</label></td>
-            <td><span title="(Only received if character is NOT an orphan) Determined by father's position in Birth Table C.  Increase by 10% if first son.  Decrease by 10% if bastard." class="tooltipIcon">?</span></td>
-            <td><input id="characterAllowance" name="allowance" type="number" min="0" max="150" required="required" /></td>
-          </tr>
-
-          <tr>
-            <td><label for="inheritance">Inheritance:</label></td>
-            <td><span title="(Only received if character is an orphan) Determined by father's position in Birth Table C." class="tooltipIcon">?</span></td>
-            <td><input id="characterInheritance" name="inheritance" type="number" min="0" max="5000" required="required" /></td>
-          </tr>
-
-          <tr>
-            <td><label for="sl">Status Level:</label></td>
-            <td><span title="Use father's position (or title, if applicable) and consult Birth Table D.  Increase by 1 if first son.  Decrease by 1 if bastard." class="tooltipIcon">?</span></td>
-            <td><input id="characterSl" name="sl" type="number" min="1" max="12" required="required" /></td>
+            <td><label for="title_roll">Father's Title:</label></td>
+            <td><span title="If you got a 5 or 6 on the Birth Class roll, roll 1d6 and enter it here." class="tooltipIcon">?</span></td>
+            <td><input id="characterFatherTitle" name="title_roll" type="number" min="1" max="6" />
           </tr>
 
           <tr>
@@ -164,12 +116,6 @@
             <td><label for="constitution">Constitution:</label></td>
             <td><span title="Roll 3d6." class="tooltipIcon">?</span></td>
             <td><input id="characterConstitution" name="constitution" type="number" min="3" max="18" required="required" /></td>
-          </tr>
-
-          <tr>
-            <td><label for="endurance">Endurance:</label></td>
-            <td><span title="Multiply Strength and Constitution." class="tooltipIcon">?</span></td>
-            <td><input id="characterEndurance" name="endurance" type="number" min="9" max="324" required="required" /></td>
           </tr>
 
           <tr>
